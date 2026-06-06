@@ -1,0 +1,63 @@
+.signature-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+@media (min-width: 900px) {
+  .signature-flow {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+.flow-step {
+  flex: 1;
+  text-align: center;
+  padding: 2rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  position: relative;
+  transition: all 0.3s var(--ease-silk);
+}
+
+.flow-step:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent);
+  box-shadow: var(--shadow-glow);
+}
+
+.flow-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.flow-connector {
+  width: 2px;
+  height: 40px;
+  background: var(--border-md);
+  position: relative;
+}
+
+@media (min-width: 900px) {
+  .flow-connector {
+    width: 60px;
+    height: 2px;
+    margin-top: 4rem;
+  }
+}
+
+.animate-pulse {
+  background: linear-gradient(90deg, var(--border-md) 0%, var(--accent) 50%, var(--border-md) 100%);
+  background-size: 200% 100%;
+  animation: dataFlow 2s linear infinite;
+}
+
+@keyframes dataFlow {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}

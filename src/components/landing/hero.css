@@ -1,0 +1,296 @@
+/* ── HERO ── */
+.hero-section {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding-top: 64px;
+  overflow: hidden;
+}
+
+.hero-glow {
+  position: absolute;
+  top: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(900px, 120vw);
+  height: min(900px, 120vw);
+  background: radial-gradient(ellipse at center,
+    rgba(255, 92, 0, 0.07) 0%,
+    rgba(255, 92, 0, 0.03) 30%,
+    transparent 65%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-section .container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(3rem, 7vw, 6rem);
+  padding-top: clamp(3rem, 8vw, 5rem);
+  padding-bottom: clamp(3rem, 8vw, 5rem);
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .hero-section .container {
+    grid-template-columns: 52% 1fr;
+    gap: 4rem;
+  }
+}
+
+/* ── Content ── */
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+}
+
+.hero-sub {
+  margin-top: 1.5rem;
+  margin-bottom: 0;
+  max-width: 50ch;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 2.25rem;
+}
+
+/* On small mobile: stack buttons */
+@media (max-width: 480px) {
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .hero-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ── Proof strip ── */
+.hero-proof {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+}
+
+.proof-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.proof-value {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+.proof-label {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+
+.proof-divider {
+  width: 1px;
+  height: 2rem;
+  background: var(--border-md);
+  flex-shrink: 0;
+}
+
+@media (max-width: 400px) {
+  .proof-divider { display: none; }
+  .hero-proof { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+}
+
+/* ── KDS Window ── */
+.hero-visual {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  /* Perspective container — gives 3D depth to child transforms */
+  perspective: 1000px;
+  perspective-origin: center center;
+}
+
+.kds-window {
+  width: 100%;
+  max-width: 520px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px var(--border),
+    0 32px 64px rgba(0, 0, 0, 0.75),
+    var(--shadow-glow);
+
+  /* Default resting state: slight back-tilt so hover feels "forward" */
+  transform: rotateX(6deg) translateY(0px);
+  transform-style: preserve-3d;
+  transition:
+    transform 0.55s var(--ease-silk),
+    box-shadow 0.55s var(--ease-silk);
+  will-change: transform;
+}
+
+.hero-visual:hover .kds-window {
+  /* Tilt forward past flat — feels like it's leaning toward you */
+  transform: rotateX(-4deg) translateY(-10px);
+  box-shadow:
+    0 0 0 1px var(--accent-border),
+    0 48px 96px rgba(0, 0, 0, 0.85),
+    0 0 80px rgba(255, 92, 0, 0.22),
+    0 0 20px rgba(255, 92, 0, 0.12);
+}
+
+/* Suppress 3D tilt on touch devices — only hover on pointer devices */
+@media (hover: none) {
+  .kds-window {
+    transform: none;
+  }
+}
+
+.kds-titlebar {
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.kds-dots { display: flex; gap: 6px; }
+.kds-dots .dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+}
+.dot.red    { background: #FF5F56; }
+.dot.yellow { background: #FFBD2E; }
+.dot.green  { background: #27C93F; }
+
+.kds-window-label {
+  margin: 0 auto;
+  color: var(--text-dim);
+  font-size: 0.7rem;
+}
+
+.kds-live-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--green);
+  letter-spacing: 0.08em;
+}
+
+.kds-body {
+  background: var(--surface);
+  padding: 1rem;
+}
+
+.kds-station-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 0.25rem 0.75rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.kds-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Responsive: on tiny screens show 1 col */
+@media (max-width: 360px) {
+  .kds-grid { grid-template-columns: 1fr; }
+}
+
+.kds-card {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-top: 2.5px solid;
+  border-radius: var(--radius-sm);
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.kds-card.urgent  { border-top-color: var(--red); }
+.kds-card.cooking { border-top-color: var(--accent); }
+.kds-card.ready   { border-top-color: var(--green); }
+
+.kds-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.kds-table { font-size: 0.68rem; color: var(--text-dim); }
+.kds-timer { font-size: 0.72rem; font-weight: 500; }
+.urgent-color  { color: var(--red); }
+.cooking-color { color: var(--accent); }
+.ready-color   { color: var(--green); }
+
+.kds-items {
+  font-size: 0.75rem;
+  color: var(--text);
+  line-height: 1.6;
+  flex: 1;
+}
+
+.kds-items .mod {
+  color: var(--text-dim);
+  font-size: 0.68rem;
+}
+
+.kds-card-footer { margin-top: auto; }
+
+.kds-badge {
+  display: inline-block;
+  padding: 0.15rem 0.55rem;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 500;
+}
+
+.kds-badge--urgent  { background: rgba(255, 51, 102, 0.12); color: var(--red); }
+.kds-badge--cooking { background: rgba(255, 92, 0, 0.12);   color: var(--accent); }
+.kds-badge--ready   { background: rgba(0, 229, 153, 0.1);   color: var(--green); }
+
+.kds-alert-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 0.85rem;
+}
+
+.alert-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--amber);
+  flex-shrink: 0;
+  animation: pulse-ring 2s ease-out infinite;
+}
