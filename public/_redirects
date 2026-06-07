@@ -1,0 +1,6 @@
+/*
+  Cloudflare Pages SPA routing fallback.
+  Any path that doesn't match a static file is served index.html with a 200,
+  allowing React Router (or any client-side router) to handle navigation.
+*/
+/*  /index.html  200
