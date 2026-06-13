@@ -5,9 +5,9 @@ import Hero from './components/landing/Hero';
 import LogoStrip from './components/landing/LogoStrip';
 import ProductStorySection from './components/landing/ProductStorySection';
 import FeaturesSection from './components/landing/FeaturesSection';
-import Testimonials from './components/testimonials/Testimonials';
+import EarlyPilot from './components/landing/EarlyPilot';
 import HowItWorks from './components/landing/HowItWorks';
-import Founders from './components/landing/Founders';
+import BuiltByCYS from './components/landing/Founders';
 import FAQ from './components/faq/FAQ';
 import './index.css';
 
@@ -28,13 +28,13 @@ function App() {
         <FeaturesSection />
 
         <div className="section-divider" />
-        <Testimonials />
+        <EarlyPilot />
 
         <div className="section-divider" />
         <HowItWorks />
 
         <div className="section-divider" />
-        <Founders />
+        <BuiltByCYS />
 
         <div className="section-divider" />
         <FAQ />

@@ -1,10 +1,9 @@
 /* ── HERO ── */
 .hero-section {
   position: relative;
-  min-height: 100svh;
+  min-height: calc(100svh - 60px);
   display: flex;
   align-items: center;
-  padding-top: 64px;
   overflow: hidden;
 }
 
