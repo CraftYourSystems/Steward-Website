@@ -103,8 +103,6 @@
 
   /* Background Glow Variables - Purple in light mode */
   --glow-accent-dim: var(--purple-dim);
-  --glow-accent-transparent: var(--purple-transparent);
-
   /* Status */
   --green:         #2a9e5c;
   --green-dim:     rgba(42, 158, 92, 0.08);
