@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import './layout.css';
+import StewardLogo from './StewardLogo';
 
 const WHATSAPP_URL = 'https://wa.me/919000730352?text=Hi%20I%20came%20across%20Steward%20and%20would%20like%20to%20book%20a%20demo%20for%20my%20restaurant.';
 
@@ -51,91 +52,7 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
       <nav className={`navbar ${scrolled ? 'navbar--scrolled glass-panel' : ''}`} role="navigation" aria-label="Main navigation">
         <div className="navbar-inner">
           <a href="#" className="navbar-logo" aria-label="Steward home">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 220 54"
-              width="160"
-              height="40"
-              aria-label="Steward"
-              role="img"
-            >
-              <defs>
-                {/* Gold gradient for the S and wordmark */}
-                <linearGradient id="gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%"   stopColor="#e8c84a"/>
-                  <stop offset="50%"  stopColor="#c9a227"/>
-                  <stop offset="100%" stopColor="#a07c10"/>
-                </linearGradient>
-                {/* Teal gradient for the bar chart */}
-                <linearGradient id="teal-grad" x1="0%" y1="100%" x2="0%" y2="0%">
-                  <stop offset="0%"  stopColor="#52d98b"/>
-                  <stop offset="100%" stopColor="#38b0c4"/>
-                </linearGradient>
-              </defs>
-
-              {/* ── Swoosh / S mark ── */}
-              <g transform="translate(0, 2)">
-                {/* Lower swoosh arc */}
-                <path
-                  d="M 8 36 Q 6 22 18 18 Q 28 15 34 20"
-                  fill="none"
-                  stroke="url(#gold-grad)"
-                  strokeWidth="3.5"
-                  strokeLinecap="round"
-                />
-                {/* Upper swoosh arc */}
-                <path
-                  d="M 14 14 Q 16 2 28 4 Q 38 6 40 16"
-                  fill="none"
-                  stroke="url(#gold-grad)"
-                  strokeWidth="3.5"
-                  strokeLinecap="round"
-                />
-                {/* S body fill — bold golden S */}
-                <text
-                  x="8"
-                  y="36"
-                  fontFamily="Georgia, 'Times New Roman', serif"
-                  fontWeight="700"
-                  fontSize="36"
-                  fill="url(#gold-grad)"
-                  letterSpacing="-1"
-                >S</text>
-
-                {/* Bar chart bars */}
-                <rect x="13" y="30" width="4" height="8"  rx="1" fill="url(#teal-grad)" opacity="0.9"/>
-                <rect x="19" y="25" width="4" height="13" rx="1" fill="url(#teal-grad)" opacity="0.9"/>
-                <rect x="25" y="20" width="4" height="18" rx="1" fill="url(#teal-grad)" opacity="0.9"/>
-
-                {/* Arrow pointing up-right */}
-                <path
-                  d="M 28 18 L 40 8"
-                  stroke="url(#gold-grad)"
-                  strokeWidth="2.8"
-                  strokeLinecap="round"
-                />
-                {/* Arrow head */}
-                <path
-                  d="M 34 6 L 41 7 L 40 14"
-                  fill="none"
-                  stroke="url(#gold-grad)"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </g>
-
-              {/* ── STEWARD wordmark ── */}
-              <text
-                x="58"
-                y="36"
-                fontFamily="'Outfit', 'Inter', system-ui, sans-serif"
-                fontWeight="600"
-                fontSize="22"
-                fill="url(#gold-grad)"
-                letterSpacing="4"
-              >STEWARD</text>
-            </svg>
+            <StewardLogo height={38} />
           </a>
 
 
