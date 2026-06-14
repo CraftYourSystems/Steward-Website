@@ -18,16 +18,25 @@ function App() {
   useScrollReveal();
 
   const [theme, setTheme] = useState<Theme>(() => {
-    // Persist preference across sessions
-    const saved = localStorage.getItem('steward-theme') as Theme | null;
-    if (saved === 'light' || saved === 'dark') return saved;
-    // Respect system preference on first visit
-    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    try {
+      // Persist preference across sessions
+      const saved = localStorage.getItem('steward-theme') as Theme | null;
+      if (saved === 'light' || saved === 'dark') return saved;
+      // Respect system preference on first visit
+      return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    } catch (e) {
+      // Safe fallback if localStorage or matchMedia is blocked/unavailable
+      return 'dark';
+    }
   });
 
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('steward-theme', theme);
+    try {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('steward-theme', theme);
+    } catch (e) {
+      // Ignore if localStorage is blocked
+    }
   }, [theme]);
 
   const toggleTheme = () => {
