@@ -26,15 +26,6 @@
   --purple-border: rgba(155, 114, 232, 0.22);
   --purple-transparent: rgba(155, 114, 232, 0);
 
-  /* Glows */
-  --purple-glow:             rgba(155, 114, 232, 0.14);
-  --purple-glow-mid:         rgba(155, 114, 232, 0.05);
-  --purple-glow-transparent: rgba(155, 114, 232, 0);
-  
-  --accent-glow:             rgba(201, 162, 39, 0.12);
-  --accent-glow-mid:         rgba(201, 162, 39, 0.04);
-  --accent-glow-transparent: rgba(201, 162, 39, 0);
-
   /* Status */
   --green:         #52d98b;
   --green-dim:     rgba(82, 217, 139, 0.10);
@@ -105,16 +96,6 @@
   --purple:        #6c40c8;
   --purple-dim:    rgba(108, 64, 200, 0.08);
   --purple-border: rgba(108, 64, 200, 0.18);
-  --purple-transparent: rgba(108, 64, 200, 0);
-
-  /* Glows */
-  --purple-glow:             rgba(108, 64, 200, 0.14);
-  --purple-glow-mid:         rgba(108, 64, 200, 0.05);
-  --purple-glow-transparent: rgba(108, 64, 200, 0);
-  
-  --accent-glow:             rgba(160, 124, 16, 0.12);
-  --accent-glow-mid:         rgba(160, 124, 16, 0.04);
-  --accent-glow-transparent: rgba(160, 124, 16, 0);
 
   /* Status */
   --green:         #2a9e5c;
@@ -197,14 +178,12 @@ body::after {
   width: min(1000px, 140vw);
   height: min(800px, 100vh);
   background: radial-gradient(ellipse at 35% 40%,
-    var(--purple-glow) 0%,
-    var(--purple-glow-mid) 40%,
-    var(--purple-glow-transparent) 70%
+    var(--purple-dim) 0%,
+    var(--purple-transparent) 70%
   ),
   radial-gradient(ellipse at 70% 60%,
-    var(--accent-glow) 0%,
-    var(--accent-glow-mid) 40%,
-    var(--accent-glow-transparent) 70%
+    var(--accent-dim) 0%,
+    var(--accent-transparent) 70%
   );
   pointer-events: none;
   z-index: 0;

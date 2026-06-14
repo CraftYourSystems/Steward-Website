@@ -460,8 +460,8 @@
   width: min(700px, 100vw);
   height: min(500px, 80vw);
   background:
-    radial-gradient(ellipse at 40% 50%, var(--purple-glow) 0%, var(--purple-glow-mid) 40%, var(--purple-glow-transparent) 70%),
-    radial-gradient(ellipse at 65% 50%, var(--accent-glow) 0%, var(--accent-glow-mid) 40%, var(--accent-glow-transparent) 70%);
+    radial-gradient(ellipse at 40% 50%, var(--purple-dim) 0%, var(--purple-transparent) 70%),
+    radial-gradient(ellipse at 65% 50%, var(--accent-dim) 0%, var(--accent-transparent) 70%);
   pointer-events: none;
   z-index: 0;
 }
