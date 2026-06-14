@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import './layout.css';
 
-const adminUrl = import.meta.env.VITE_ADMIN_URL || 'http://localhost:3000';
+const WHATSAPP_URL = 'https://wa.me/919000730352?text=Hi%20I%20came%20across%20Steward%20and%20would%20like%20to%20book%20a%20demo%20for%20my%20restaurant.';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -37,8 +37,8 @@ export default function Navbar() {
           </ul>
 
           <div className="navbar-cta">
-            <a href={`${adminUrl}/login`} className="btn btn-primary" style={{ padding: '0.55rem 1.1rem', fontSize: '0.83rem', minHeight: '40px' }}>
-              Login
+            <a href={WHATSAPP_URL} className="btn btn-primary" target="_blank" rel="noopener noreferrer" style={{ padding: '0.55rem 1.1rem', fontSize: '0.83rem', minHeight: '40px' }}>
+              Book a Demo
             </a>
           </div>
 
@@ -63,8 +63,8 @@ export default function Navbar() {
           <a href="#how-it-works" className="drawer-link" onClick={closeDrawer}>How It Works</a>
           <a href="#team"         className="drawer-link" onClick={closeDrawer}>Team</a>
           <a href="#faq"          className="drawer-link" onClick={closeDrawer}>FAQ</a>
-          <a href={`${adminUrl}/login`} className="btn btn-primary drawer-cta" onClick={closeDrawer}>
-            Login
+          <a href={WHATSAPP_URL} className="btn btn-primary drawer-cta" target="_blank" rel="noopener noreferrer" onClick={closeDrawer}>
+            Book a Demo
           </a>
         </div>
       </div>

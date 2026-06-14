@@ -1,6 +1,6 @@
 import './layout.css';
 
-const adminUrl = import.meta.env.VITE_ADMIN_URL || 'http://localhost:3000';
+const WHATSAPP_URL = 'https://wa.me/919000730352?text=Hi%20I%20came%20across%20Steward%20and%20would%20like%20to%20book%20a%20demo%20for%20my%20restaurant.';
 
 export default function Footer() {
   return (
@@ -42,7 +42,7 @@ export default function Footer() {
             <h4 className="footer-title">Company</h4>
             <div className="footer-links-group">
               <a href="#team">About Us</a>
-              <a href={`${adminUrl}/login`}>Admin Login</a>
+              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">Book a Demo</a>
               <a href="mailto:hello@steward.app">Contact</a>
             </div>
           </div>

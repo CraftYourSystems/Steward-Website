@@ -1,6 +1,6 @@
 import './hero.css';
 
-const adminUrl = import.meta.env.VITE_ADMIN_URL || 'http://localhost:3000';
+const WHATSAPP_URL = 'https://wa.me/919000730352?text=Hi%20I%20came%20across%20Steward%20and%20would%20like%20to%20book%20a%20demo%20for%20my%20restaurant.';
 
 export default function Hero() {
   return (
@@ -28,9 +28,9 @@ export default function Hero() {
           </p>
 
           <div className="hero-actions animate-fade-up delay-300">
-            <a href={`${adminUrl}/login`} className="btn btn-primary">
+            <a href={WHATSAPP_URL} className="btn btn-primary" target="_blank" rel="noopener noreferrer">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              Login
+              Book a Demo
             </a>
             <a href="#product-story" className="btn btn-secondary">See How It Works</a>
           </div>
