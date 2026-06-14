@@ -30,29 +30,15 @@
 .navbar-logo {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
   text-decoration: none;
   flex-shrink: 0;
+  line-height: 0; /* prevent extra space under inline SVG */
 }
 
-.logo-mark {
-  width: 26px;
-  height: 26px;
-  background: linear-gradient(135deg, var(--purple) 0%, var(--accent) 100%);
-  color: #fff;
-  border-radius: 7px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+.navbar-logo svg {
+  display: block;
 }
 
-.logo-text {
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: -0.025em;
-  color: var(--text);
-}
 
 .navbar-links {
   display: none;
