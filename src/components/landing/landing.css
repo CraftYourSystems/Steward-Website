@@ -71,14 +71,19 @@
   align-items: center;
   gap: 0.4rem;
   padding: 0.2rem 0.65rem;
-  background: rgba(0, 229, 153, 0.06);
-  border: 1px solid rgba(0, 229, 153, 0.18);
+  background: var(--green-dim);
+  border: 1px solid rgba(82, 217, 139, 0.22);
   border-radius: var(--radius-pill);
   font-family: var(--font-mono);
   font-size: 0.65rem;
   letter-spacing: 0.04em;
   color: var(--green);
   white-space: nowrap;
+}
+
+[data-theme="light"] .pilot-status-chip {
+  background: rgba(42, 158, 92, 0.07);
+  border-color: rgba(42, 158, 92, 0.22);
 }
 
 .pilot-cta .btn {
@@ -157,12 +162,17 @@
   gap: 0.4rem;
   margin-top: 1.25rem;
   padding: 0.3rem 0.75rem;
-  background: rgba(0, 229, 153, 0.07);
-  border: 1px solid rgba(0, 229, 153, 0.15);
+  background: var(--green-dim);
+  border: 1px solid rgba(82, 217, 139, 0.18);
   border-radius: var(--radius-pill);
   font-family: var(--font-mono);
   font-size: 0.68rem;
   color: var(--green);
+}
+
+[data-theme="light"] .feature-outcome {
+  background: rgba(42, 158, 92, 0.07);
+  border-color: rgba(42, 158, 92, 0.18);
 }
 
 /* ── SHOWCASE SECTION ── */
@@ -449,7 +459,9 @@
   transform: translate(-50%, -50%);
   width: min(700px, 100vw);
   height: min(500px, 80vw);
-  background: radial-gradient(ellipse, rgba(207, 155, 98, 0.07) 0%, transparent 65%);
+  background:
+    radial-gradient(ellipse at 40% 50%, var(--purple-dim) 0%, transparent 55%),
+    radial-gradient(ellipse at 65% 50%, var(--accent-dim) 0%, transparent 55%);
   pointer-events: none;
   z-index: 0;
 }

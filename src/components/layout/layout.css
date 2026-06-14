@@ -38,8 +38,8 @@
 .logo-mark {
   width: 26px;
   height: 26px;
-  background: var(--accent);
-  color: var(--bg);
+  background: linear-gradient(135deg, var(--purple) 0%, var(--accent) 100%);
+  color: #fff;
   border-radius: 7px;
   display: flex;
   align-items: center;
@@ -76,11 +76,15 @@
   background: var(--surface-2);
 }
 
-.navbar-cta { display: none; }
+.navbar-cta {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+}
 
 @media (min-width: 768px) {
   .navbar-links { display: flex; }
-  .navbar-cta   { display: block; }
+  .navbar-cta   { display: flex; }
 }
 
 /* ── HAMBURGER ── */
@@ -122,10 +126,15 @@
 .nav-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(6px) saturate(0.8);
+  -webkit-backdrop-filter: blur(6px) saturate(0.8);
   z-index: 205;
   animation: fadeIn 0.2s var(--ease-silk);
+}
+
+[data-theme="light"] .nav-overlay {
+  background: rgba(26, 21, 48, 0.30);
 }
 
 .nav-drawer {
@@ -139,7 +148,7 @@
   z-index: 210;
   transform: translateX(100%);
   transition: transform 0.38s var(--ease-silk);
-  box-shadow: -20px 0 60px rgba(0, 0, 0, 0.5);
+  box-shadow: -20px 0 80px rgba(0, 0, 0, 0.45), 0 0 0 1px var(--border);
 }
 
 .nav-drawer--open {
@@ -152,6 +161,21 @@
   padding: 80px 2rem 2.5rem;
   gap: 0.25rem;
   height: 100%;
+}
+
+.drawer-theme-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0.75rem 1.25rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.drawer-theme-label {
+  font-size: 0.83rem;
+  font-weight: 500;
+  color: var(--text-muted);
 }
 
 .drawer-link {

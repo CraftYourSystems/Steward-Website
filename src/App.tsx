@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useScrollReveal } from './hooks/useScrollReveal';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
@@ -11,12 +12,36 @@ import BuiltByCYS from './components/landing/Founders';
 import FAQ from './components/faq/FAQ';
 import './index.css';
 
+type Theme = 'dark' | 'light';
+
 function App() {
   useScrollReveal();
 
+  const [theme, setTheme] = useState<Theme>(() => {
+    // Persist preference across sessions
+    const saved = localStorage.getItem('steward-theme') as Theme | null;
+    if (saved === 'light' || saved === 'dark') return saved;
+    // Respect system preference on first visit
+    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('steward-theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    // Brief transition class so all colours animate smoothly
+    document.documentElement.classList.add('theme-transitioning');
+    setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
+    setTimeout(() => {
+      document.documentElement.classList.remove('theme-transitioning');
+    }, 400);
+  };
+
   return (
     <div className="app-container">
-      <Navbar />
+      <Navbar theme={theme} toggleTheme={toggleTheme} />
       <main>
         <Hero />
         <LogoStrip />
