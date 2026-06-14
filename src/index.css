@@ -24,6 +24,7 @@
   --purple:        #9b72e8;
   --purple-dim:    rgba(155, 114, 232, 0.10);
   --purple-border: rgba(155, 114, 232, 0.22);
+  --purple-transparent: rgba(155, 114, 232, 0);
 
   /* Status */
   --green:         #52d98b;
@@ -89,6 +90,7 @@
   --accent-lt:     #c09820;
   --accent-dim:    rgba(160, 124, 16, 0.08);
   --accent-border: rgba(160, 124, 16, 0.20);
+  --accent-transparent: rgba(160, 124, 16, 0);
 
   /* Purple Accent */
   --purple:        #6c40c8;
@@ -177,11 +179,11 @@ body::after {
   height: min(800px, 100vh);
   background: radial-gradient(ellipse at 35% 40%,
     var(--purple-dim) 0%,
-    transparent 50%
+    var(--purple-transparent) 70%
   ),
   radial-gradient(ellipse at 70% 60%,
     var(--accent-dim) 0%,
-    transparent 50%
+    var(--accent-transparent) 70%
   );
   pointer-events: none;
   z-index: 0;
