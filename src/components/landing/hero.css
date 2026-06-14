@@ -20,8 +20,8 @@
       var(--purple-transparent) 70%
     ),
     radial-gradient(ellipse at 65% 45%,
-      var(--accent-dim) 0%,
-      var(--accent-transparent) 70%
+      var(--glow-accent-dim) 0%,
+      var(--glow-accent-transparent) 70%
     );
   pointer-events: none;
   z-index: 0;
@@ -156,7 +156,7 @@
     0 0 0 1px var(--purple-border),
     0 48px 96px rgba(0, 0, 0, 0.80),
     0 0 80px var(--purple-dim),
-    0 0 30px var(--accent-dim);
+    0 0 30px var(--glow-accent-dim);
 }
 
 /* Suppress 3D tilt on touch devices — only hover on pointer devices */
