@@ -96,6 +96,7 @@
   --purple:        #6c40c8;
   --purple-dim:    rgba(108, 64, 200, 0.08);
   --purple-border: rgba(108, 64, 200, 0.18);
+  --purple-transparent: rgba(108, 64, 200, 0);
 
   /* Status */
   --green:         #2a9e5c;
