@@ -1,3 +1,4 @@
+import { useMagneticCard } from '../../hooks/usePhysics';
 import './landing.css';
 
 const features = [
@@ -68,6 +69,36 @@ const features = [
   },
 ];
 
+interface FeatureCardProps {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  outcome: string;
+  delay: string;
+}
+
+function FeatureCard({ icon, title, description, outcome, delay }: FeatureCardProps) {
+  const cardRef = useMagneticCard<HTMLDivElement>();
+  return (
+    <div
+      ref={cardRef}
+      className="feature-card animate-fade-up"
+      style={{ 
+        transitionDelay: delay,
+        transform: 'perspective(600px) rotateX(var(--ry, 0deg)) rotateY(var(--rx, 0deg))'
+      }}
+    >
+      <div className="feature-icon" aria-hidden="true">{icon}</div>
+      <h3 className="heading-sm" style={{ marginBottom: '0.6rem' }}>{title}</h3>
+      <p className="text-body">{description}</p>
+      <div className="feature-outcome text-mono">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        {outcome}
+      </div>
+    </div>
+  );
+}
+
 export default function FeaturesSection() {
   return (
     <section className="features-section section" id="features" aria-labelledby="features-heading">
@@ -84,19 +115,14 @@ export default function FeaturesSection() {
 
         <div className="features-grid" style={{ marginTop: '3rem' }}>
           {features.map((f, i) => (
-            <div
+            <FeatureCard
               key={f.title}
-              className="feature-card animate-fade-up"
-              style={{ transitionDelay: `${i * 60}ms` }}
-            >
-              <div className="feature-icon" aria-hidden="true">{f.icon}</div>
-              <h3 className="heading-sm" style={{ marginBottom: '0.6rem' }}>{f.title}</h3>
-              <p className="text-body">{f.description}</p>
-              <div className="feature-outcome">
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                {f.outcome}
-              </div>
-            </div>
+              icon={f.icon}
+              title={f.title}
+              description={f.description}
+              outcome={f.outcome}
+              delay={`${i * 60}ms`}
+            />
           ))}
         </div>
       </div>

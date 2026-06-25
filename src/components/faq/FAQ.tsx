@@ -1,3 +1,4 @@
+import { useReducer } from 'react';
 import '../landing/landing.css';
 import '../../components/faq/faq.css';
 
@@ -20,7 +21,19 @@ const faqs = [
   },
 ];
 
+type State = { openIndex: number | null };
+type Action = { type: 'TOGGLE'; index: number };
+
+function reducer(state: State, action: Action): State {
+  if (action.type === 'TOGGLE') {
+    return { openIndex: state.openIndex === action.index ? null : action.index };
+  }
+  return state;
+}
+
 export default function FAQ() {
+  const [state, dispatch] = useReducer(reducer, { openIndex: null });
+
   return (
     <section className="faq-section section" id="faq" aria-labelledby="faq-heading">
       <div className="container" style={{ maxWidth: '760px' }}>
@@ -32,14 +45,47 @@ export default function FAQ() {
         </div>
 
         <div className="faq-list animate-fade-up delay-100">
-          {faqs.map((f, i) => (
-            <div key={i} className="faq-item">
-              <h3 className="heading-sm" style={{ marginBottom: '0.75rem' }}>{f.q}</h3>
-              <p className="text-body">{f.a}</p>
-            </div>
-          ))}
+          {faqs.map((f, i) => {
+            const isOpen = state.openIndex === i;
+            return (
+              <div key={i} className={`faq-item ${isOpen ? 'faq-item--open' : ''}`}>
+                <button
+                  className="faq-trigger"
+                  onClick={() => dispatch({ type: 'TOGGLE', index: i })}
+                  aria-expanded={isOpen}
+                  aria-controls={`faq-answer-${i}`}
+                >
+                  <h3 className="heading-sm faq-question">{f.q}</h3>
+                  <svg
+                    className={`faq-chevron ${isOpen ? 'faq-chevron--open' : ''}`}
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </button>
+                <div
+                  className="faq-collapse"
+                  id={`faq-answer-${i}`}
+                  role="region"
+                  aria-hidden={!isOpen}
+                >
+                  <div className="faq-answer">
+                    <p className="text-body">{f.a}</p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
   );
 }
+

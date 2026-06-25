@@ -1,18 +1,96 @@
+/* ── FAQ ACCORDION ── */
+
 .faq-list {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 0.75rem;
 }
 
 .faq-item {
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: 1.5px solid var(--border);
   border-radius: var(--radius-sm);
-  padding: 1.5rem;
   transition: all 0.3s var(--ease-silk);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Left accent border — fills down on open */
+.faq-item::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(to bottom, var(--accent), var(--aqua-vivid));
+  border-radius: 2px 0 0 2px;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.4s var(--ease-silk);
+}
+
+.faq-item--open::before {
+  transform: scaleY(1);
 }
 
 .faq-item:hover {
-  border-color: var(--border-md);
-  transform: translateX(4px);
+  border-color: var(--accent-border);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.faq-item--open {
+  border-color: var(--accent-border);
+  box-shadow: var(--shadow-md), var(--shadow-glow);
+}
+
+/* ── Trigger button (question) ── */
+.faq-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: clamp(1.25rem, 3vw, 1.75rem);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-sans);
+}
+
+.faq-question {
+  flex: 1;
+  margin: 0;
+}
+
+/* ── Chevron ── */
+.faq-chevron {
+  flex-shrink: 0;
+  color: var(--text-dim);
+  transition: transform 0.35s var(--ease-bounce), color 0.25s;
+}
+
+.faq-chevron--open {
+  transform: rotate(180deg);
+  color: var(--accent-dk);
+}
+
+/* ── Collapse container using grid-template-rows trick ── */
+.faq-collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s var(--ease-silk);
+}
+
+.faq-item--open .faq-collapse {
+  grid-template-rows: 1fr;
+}
+
+.faq-answer {
+  overflow: hidden;
+}
+
+.faq-answer .text-body {
+  padding: 0 clamp(1.25rem, 3vw, 1.75rem) clamp(1.25rem, 3vw, 1.75rem);
 }

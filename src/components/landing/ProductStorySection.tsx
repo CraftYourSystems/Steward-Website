@@ -1,3 +1,5 @@
+import { useState, useEffect, useRef } from 'react';
+import { useParticleBurst } from '../../hooks/usePhysics';
 import './story.css';
 
 interface ChapterProps {
@@ -28,178 +30,416 @@ function Chapter({ step, headline, body, visual, reversed = false, accentColor =
   );
 }
 
-/* ── Mini UI components rendered inside chapters ── */
+/* ── CHAPTER 1: Interactive Order Ticket ── */
 function OrderTicket() {
+  const [extraPickles, setExtraPickles] = useState(true);
+  const [bacon, setBacon] = useState(false);
+  const [gfBun, setGfBun] = useState(false);
+  const [orderSent, setOrderSent] = useState(false);
+  const { triggerBurst } = useParticleBurst();
+
+  // Price calculations
+  const baseBurgerPrice = 18.00;
+  const saladPrice = 24.00;
+  const waterPrice = 5.00;
+  
+  let modifiersPrice = 0;
+  if (extraPickles) modifiersPrice += 1.00;
+  if (bacon) modifiersPrice += 2.50;
+  if (gfBun) modifiersPrice += 1.50;
+
+  const total = baseBurgerPrice + modifiersPrice + saladPrice + waterPrice;
+
+  const handlePlaceOrder = (e: React.MouseEvent) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    triggerBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
+    setOrderSent(true);
+  };
+
   return (
-    <div className="story-card">
+    <div className="story-card order-ticket-card">
       <div className="story-card-header">
         <div className="story-card-dots">
           <span /><span /><span />
         </div>
-        <span className="text-mono story-card-title">QR Order · Table 7</span>
+        <span className="text-mono story-card-title">QR Menu · Table 7</span>
         <span className="live-badge">
           <span className="pulse-dot" style={{ width: 5, height: 5 }} />
-          LIVE
+          ACTIVE
         </span>
       </div>
-      <div className="story-card-body">
+      
+      <div className="story-card-body" style={{ position: 'relative' }}>
+        
+        {/* Modifiers List */}
         <div className="order-line">
           <span className="order-qty">1×</span>
           <div className="order-info">
             <span className="order-name">Classic Burger</span>
-            <span className="order-mod text-mono">no sesame, extra pickles</span>
+            <div className="order-modifiers-picker">
+              <label className="mod-checkbox text-mono">
+                <input 
+                  type="checkbox" 
+                  checked={extraPickles} 
+                  onChange={(e) => setExtraPickles(e.target.checked)} 
+                />
+                <span className="chk-box" />
+                Extra pickles (+$1.00)
+              </label>
+              <label className="mod-checkbox text-mono">
+                <input 
+                  type="checkbox" 
+                  checked={bacon} 
+                  onChange={(e) => setBacon(e.target.checked)} 
+                />
+                <span className="chk-box" />
+                Add crispy bacon (+$2.50)
+              </label>
+              <label className="mod-checkbox text-mono">
+                <input 
+                  type="checkbox" 
+                  checked={gfBun} 
+                  onChange={(e) => setGfBun(e.target.checked)} 
+                />
+                <span className="chk-box" />
+                Gluten-free bun (+$1.50)
+              </label>
+            </div>
+            <span className="order-mod text-mono">
+              Modifiers: no sesame
+              {extraPickles && ', extra pickles'}
+              {bacon && ', add bacon'}
+              {gfBun && ', GF bun'}
+            </span>
           </div>
-          <span className="order-price">$18</span>
+          <span className="order-price">${(baseBurgerPrice + modifiersPrice).toFixed(2)}</span>
         </div>
+
         <div className="order-line">
           <span className="order-qty">2×</span>
           <div className="order-info">
             <span className="order-name">Caesar Salad</span>
           </div>
-          <span className="order-price">$24</span>
+          <span className="order-price">${saladPrice.toFixed(2)}</span>
         </div>
+
         <div className="order-line">
           <span className="order-qty">1×</span>
           <div className="order-info">
             <span className="order-name">Sparkling Water</span>
           </div>
-          <span className="order-price">$5</span>
+          <span className="order-price">${waterPrice.toFixed(2)}</span>
         </div>
+
         <div className="order-separator" />
+        
         <div className="order-total">
           <span>Total</span>
-          <span>$47.00</span>
+          <span className="text-mono">${total.toFixed(2)}</span>
         </div>
-        <button className="story-submit-btn">
-          Place Order
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+
+        <button 
+          className={`story-submit-btn ${orderSent ? 'sent' : ''}`}
+          onClick={handlePlaceOrder}
+          disabled={orderSent}
+        >
+          {orderSent ? (
+            <>
+              Order Sent ✓
+            </>
+          ) : (
+            <>
+              Place Order
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </>
+          )}
         </button>
-        <p className="story-card-note text-mono">No app. No account. Just scan and order.</p>
+        <p className="story-card-note text-mono">Try selecting modifiers and placing the order!</p>
+
+        {/* Success flying ticket overlay */}
+        {orderSent && (
+          <div className="order-success-overlay animate-spring-in">
+            <div className="overlay-badge">⚡</div>
+            <h4 className="text-mono">Rerouting Order...</h4>
+            <p className="text-mono" style={{ fontSize: '0.62rem', color: 'var(--text-muted)' }}>
+              Table 7 order successfully synced. Splitting ticket to kitchen stations...
+            </p>
+            <button 
+              onClick={() => setOrderSent(false)}
+              className="btn btn-secondary text-mono" 
+              style={{ fontSize: '0.6rem', padding: '0.3rem 0.6rem', marginTop: '0.5rem' }}
+            >
+              Order Again
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
 }
 
+/* ── CHAPTER 2: SVG Routing Diagram ── */
 function RoutingDiagram() {
+  const [grillCount, setGrillCount] = useState(0);
+  const [coldCount, setColdCount] = useState(0);
+  const [barCount, setBarCount] = useState(0);
+
+  const [grillFlash, setGrillFlash] = useState(false);
+  const [coldFlash, setColdFlash] = useState(false);
+  const [barFlash, setBarFlash] = useState(false);
+
+  useEffect(() => {
+    // Set up synchronized intervals that flash the station chips as SVG dots arrive
+    const interval = setInterval(() => {
+      // Grill dot arrives
+      setTimeout(() => {
+        setGrillFlash(true);
+        setGrillCount(c => c + 1);
+        setTimeout(() => setGrillFlash(false), 800);
+      }, 2500);
+
+      // Cold dot arrives
+      setTimeout(() => {
+        setColdFlash(true);
+        setColdCount(c => c + 1);
+        setTimeout(() => setColdFlash(false), 800);
+      }, 3500);
+
+      // Bar dot arrives
+      setTimeout(() => {
+        setBarFlash(true);
+        setBarCount(c => c + 1);
+        setTimeout(() => setBarFlash(false), 800);
+      }, 4500);
+    }, 6000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <div className="story-card">
+    <div className="story-card routing-diagram-card">
       <div className="story-card-header">
         <div className="story-card-dots"><span /><span /><span /></div>
-        <span className="text-mono story-card-title">Steward Routing Engine</span>
-        <span className="text-mono" style={{ fontSize: '0.65rem', color: 'var(--green)' }}>12ms</span>
+        <span className="text-mono story-card-title">Steward Intelligent Router</span>
+        <span className="text-mono" style={{ fontSize: '0.65rem', color: 'var(--aqua-vivid)' }}>12ms latency</span>
       </div>
+
       <div className="story-card-body" style={{ padding: '1.25rem' }}>
-        {/* Order Source */}
+        
+        {/* Source Table node */}
         <div className="route-node route-node--source">
           <div className="route-icon">📱</div>
           <div>
-            <div className="heading-sm">Table 7 Order</div>
-            <div className="text-mono" style={{ color: 'var(--text-dim)', fontSize: '0.68rem' }}>3 items · fired instantly</div>
+            <div className="heading-sm text-mono">Table 7 Order Ticket</div>
+            <div className="text-mono" style={{ color: 'var(--text-dim)', fontSize: '0.65rem' }}>4 items · split instantly</div>
           </div>
         </div>
 
-        {/* Arrow down */}
-        <div className="route-arrow">
-          <div className="route-arrow-line" />
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="var(--accent)"><path d="M6 0v10M1 5l5 5 5-5" stroke="var(--accent)" strokeWidth="1.5" fill="none"/></svg>
+        {/* SVG Routing paths with flowing dots */}
+        <div className="routing-svg-container">
+          <svg viewBox="0 0 300 80" className="routing-svg" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="grad-grill" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.8" />
+                <stop offset="100%" stopColor="var(--accent)" stopOpacity="0.2" />
+              </linearGradient>
+              <linearGradient id="grad-cold" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="var(--aqua-vivid)" stopOpacity="0.8" />
+                <stop offset="100%" stopColor="var(--aqua-vivid)" stopOpacity="0.2" />
+              </linearGradient>
+              <linearGradient id="grad-bar" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="var(--purple-mid)" stopOpacity="0.8" />
+                <stop offset="100%" stopColor="var(--purple-mid)" stopOpacity="0.2" />
+              </linearGradient>
+            </defs>
+
+            {/* Path lines */}
+            <path d="M 150 0 C 150 40, 50 30, 50 80" fill="none" stroke="var(--border-md)" strokeWidth="1.5" />
+            <path d="M 150 0 L 150 80" fill="none" stroke="var(--border-md)" strokeWidth="1.5" />
+            <path d="M 150 0 C 150 40, 250 30, 250 80" fill="none" stroke="var(--border-md)" strokeWidth="1.5" />
+
+            {/* Flowing animated circles */}
+            <circle r="5" fill="var(--accent)" className="flowing-dot dot-grill">
+              <animateMotion dur="6s" repeatCount="indefinite" path="M 150 0 C 150 40, 50 30, 50 80" calcMode="linear" />
+            </circle>
+            <circle r="5" fill="var(--aqua-vivid)" className="flowing-dot dot-cold">
+              <animateMotion dur="6s" begin="1s" repeatCount="indefinite" path="M 150 0 L 150 80" calcMode="linear" />
+            </circle>
+            <circle r="5" fill="var(--purple-mid)" className="flowing-dot dot-bar">
+              <animateMotion dur="6s" begin="2s" repeatCount="indefinite" path="M 150 0 C 150 40, 250 30, 250 80" calcMode="linear" />
+            </circle>
+          </svg>
         </div>
 
-        {/* Routing engine */}
-        <div className="route-engine">
-          <span className="text-mono" style={{ fontSize: '0.68rem', color: 'var(--accent)' }}>Routing Intelligence</span>
-          <div className="route-engine-tags">
-            <span className="route-tag">Course pacing</span>
-            <span className="route-tag">Cook-time sync</span>
-            <span className="route-tag">Station load</span>
-          </div>
-        </div>
-
-        {/* Arrow down */}
-        <div className="route-arrow">
-          <div className="route-arrow-line" />
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="var(--accent)"><path d="M6 0v10M1 5l5 5 5-5" stroke="var(--accent)" strokeWidth="1.5" fill="none"/></svg>
-        </div>
-
-        {/* Stations */}
+        {/* Destination stations with counters */}
         <div className="route-stations">
-          <div className="station-chip station-chip--grill">
+          
+          <div className={`station-chip station-chip--grill ${grillFlash ? 'flash' : ''}`}>
             <span>🔥</span>
             <div>
-              <div style={{ fontSize: '0.72rem', fontWeight: 600 }}>Grill</div>
+              <div className="text-mono" style={{ fontSize: '0.72rem', fontWeight: 600 }}>Grill</div>
               <div className="text-mono" style={{ fontSize: '0.62rem', color: 'var(--text-dim)' }}>Burger</div>
             </div>
+            {grillFlash && (
+              <span className="float-badge text-mono animate-float-up">+1</span>
+            )}
+            <span className="station-counter text-mono">{grillCount}</span>
           </div>
-          <div className="station-chip station-chip--cold">
+
+          <div className={`station-chip station-chip--cold ${coldFlash ? 'flash' : ''}`}>
             <span>🥗</span>
             <div>
-              <div style={{ fontSize: '0.72rem', fontWeight: 600 }}>Cold</div>
+              <div className="text-mono" style={{ fontSize: '0.72rem', fontWeight: 600 }}>Cold</div>
               <div className="text-mono" style={{ fontSize: '0.62rem', color: 'var(--text-dim)' }}>2× Salad</div>
             </div>
+            {coldFlash && (
+              <span className="float-badge text-mono animate-float-up">+2</span>
+            )}
+            <span className="station-counter text-mono">{coldCount * 2}</span>
           </div>
-          <div className="station-chip station-chip--bar">
+
+          <div className={`station-chip station-chip--bar ${barFlash ? 'flash' : ''}`}>
             <span>🫧</span>
             <div>
-              <div style={{ fontSize: '0.72rem', fontWeight: 600 }}>Bar</div>
+              <div className="text-mono" style={{ fontSize: '0.72rem', fontWeight: 600 }}>Bar</div>
               <div className="text-mono" style={{ fontSize: '0.62rem', color: 'var(--text-dim)' }}>Water</div>
             </div>
+            {barFlash && (
+              <span className="float-badge text-mono animate-float-up">+1</span>
+            )}
+            <span className="station-counter text-mono">{barCount}</span>
           </div>
+
         </div>
       </div>
     </div>
   );
 }
 
+/* ── CHAPTER 3: Live Analytics Dashboard ── */
 function AnalyticsDashboard() {
+  const countRevRef = useRef<HTMLDivElement>(null);
+  const countCovRef = useRef<HTMLDivElement>(null);
+  const countTicketRef = useRef<HTMLDivElement>(null);
+
+  const [revVal, setRevVal] = useState(4800);
+  const [covVal, setCovVal] = useState(110);
+  const [tktVal, setTktVal] = useState(38);
+
+  const [hoveredBar, setHoveredBar] = useState<number | null>(null);
+
+  // Set up custom count up when visible
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          const duration = 2000;
+          const startTime = performance.now();
+
+          const animate = (now: number) => {
+            const elapsed = now - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 4); // easeOutQuart
+
+            setRevVal(Math.round(4800 + (4867 - 4800) * eased));
+            setCovVal(Math.round(110 + (119 - 110) * eased));
+            setTktVal(Math.round(38.0 + (40.8 - 38.0) * eased));
+
+            if (progress < 1) requestAnimationFrame(animate);
+          };
+          requestAnimationFrame(animate);
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    const el = countRevRef.current;
+    if (el) observer.observe(el);
+
+    return () => observer.disconnect();
+  }, []);
+
+  const barData = [
+    { hour: '5p', covers: 22 },
+    { hour: '6p', covers: 45 },
+    { hour: '7p', covers: 68 },
+    { hour: '8p', covers: 100, peak: true },
+    { hour: '9p', covers: 92, peak: true },
+    { hour: '10p', covers: 72 },
+    { hour: '11p', covers: 38 }
+  ];
+
   return (
-    <div className="story-card">
+    <div className="story-card analytics-dashboard-card" ref={countRevRef}>
       <div className="story-card-header">
         <div className="story-card-dots"><span /><span /><span /></div>
-        <span className="text-mono story-card-title">Analytics · Tonight · Live</span>
+        <span className="text-mono story-card-title">Live Analytics · Shift Dashboard</span>
+        <span className="live-badge">
+          <span className="pulse-dot" style={{ width: 5, height: 5 }} />
+          LIVE FEED
+        </span>
       </div>
+
       <div className="story-card-body" style={{ padding: '1rem' }}>
-        {/* Stat row */}
+        
+        {/* Metric Cards Row */}
         <div className="an-stats">
           <div className="an-stat-card">
             <div className="text-mono an-stat-label">Revenue</div>
-            <div className="an-stat-value">$4,820</div>
-            <div className="an-stat-trend">↑ 14% vs last Fri</div>
+            <div className="an-stat-value text-mono">${revVal}</div>
+            <div className="an-stat-trend text-mono">↑ 14% vs last Fri</div>
           </div>
           <div className="an-stat-card">
             <div className="text-mono an-stat-label">Covers</div>
-            <div className="an-stat-value">118</div>
-            <div className="an-stat-trend">↑ 12 vs avg</div>
+            <div className="an-stat-value text-mono" ref={countCovRef}>{covVal}</div>
+            <div className="an-stat-trend text-mono">↑ 12 vs avg</div>
           </div>
           <div className="an-stat-card">
             <div className="text-mono an-stat-label">Avg Ticket</div>
-            <div className="an-stat-value">$40.8</div>
-            <div className="an-stat-trend">↑ $3.20 vs avg</div>
+            <div className="an-stat-value text-mono" ref={countTicketRef}>${tktVal.toFixed(1)}</div>
+            <div className="an-stat-trend text-mono">↑ $3.20 vs avg</div>
           </div>
         </div>
 
-        {/* Bar chart */}
+        {/* Hoverable Bar Chart */}
         <div className="an-chart-label text-mono">Covers by hour (tonight)</div>
-        <div className="an-chart-bars">
-          {[22, 45, 68, 100, 92, 72, 38].map((h, i) => (
-            <div key={i} className="an-bar-col">
-              <div
-                className={`an-bar ${h >= 90 ? 'an-bar--peak' : ''}`}
-                style={{ height: `${h}%` }}
-              />
-              <span className="text-mono an-bar-label">
-                {['5p','6p','7p','8p','9p','10p','11p'][i]}
-              </span>
+        <div className="an-chart-bars-container">
+          
+          <div className="an-chart-bars">
+            {barData.map((data, i) => (
+              <div 
+                key={i} 
+                className="an-bar-col"
+                onMouseEnter={() => setHoveredBar(i)}
+                onMouseLeave={() => setHoveredBar(null)}
+              >
+                <div
+                  className={`an-bar ${data.peak ? 'an-bar--peak' : ''}`}
+                  style={{ height: `${data.covers}%` }}
+                />
+                <span className="text-mono an-bar-label">{data.hour}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Hover Tooltip display */}
+          {hoveredBar !== null && (
+            <div className="chart-tooltip text-mono animate-spring-in">
+              <span className="tooltip-hour">{barData[hoveredBar].hour} Covers</span>
+              <span className="tooltip-value">{barData[hoveredBar].covers} guests served</span>
             </div>
-          ))}
+          )}
         </div>
 
-        {/* Top items */}
+        {/* Top selling indicator */}
         <div className="an-top-item">
-          <span className="text-mono" style={{ color: 'var(--text-dim)', fontSize: '0.68rem' }}>TOP ITEM TONIGHT</span>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.35rem' }}>
-            <span style={{ fontSize: '0.85rem', color: 'var(--text)', fontWeight: 600 }}>Classic Burger</span>
-            <span className="text-mono" style={{ color: 'var(--green)', fontSize: '0.75rem' }}>47 sold</span>
+          <span className="text-mono" style={{ color: 'var(--text-dim)', fontSize: '0.65rem' }}>TOP SELLING TONIGHT</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', justifyItems: 'center', marginTop: '0.35rem' }}>
+            <span style={{ fontSize: '0.85rem', color: 'var(--text)', fontWeight: 600 }}>Smash Burger</span>
+            <span className="text-mono" style={{ color: 'var(--aqua-vivid)', fontSize: '0.75rem', marginLeft: 'auto' }}>47 orders</span>
           </div>
         </div>
+
       </div>
     </div>
   );
@@ -225,7 +465,7 @@ export default function ProductStorySection() {
         <Chapter
           step="01 / Guest Orders"
           headline="A guest scans. An order <span class='accent-text'>appears instantly.</span>"
-          body="No app download. No server relay. A guest scans the table QR code, browses a menu you control in real time, and submits. Their order is live in your system before they put their phone down."
+          body="No app download. No server relay. A guest scans the table QR code, selects customized modifiers, and submits. Their order is live in your system before they put their phone down."
           visual={<OrderTicket />}
         />
 
@@ -236,7 +476,7 @@ export default function ProductStorySection() {
           body="The moment an order fires, Steward's routing engine splits it by station — Grill, Cold, Bar — while accounting for course pacing and cook times. Your kitchen stays coordinated without anyone shouting across the pass."
           visual={<RoutingDiagram />}
           reversed
-          accentColor="var(--green)"
+          accentColor="var(--aqua-vivid)"
         />
 
         {/* Chapter 3 */}
@@ -245,7 +485,7 @@ export default function ProductStorySection() {
           headline="See everything <span class='accent-text'>as it happens.</span>"
           body="Revenue, cover counts, and item velocity update the moment tickets close. You're not reading last night's spreadsheet — you're looking at a live feed. Make calls during the shift, when they still matter."
           visual={<AnalyticsDashboard />}
-          accentColor="var(--amber)"
+          accentColor="var(--accent)"
         />
 
       </div>

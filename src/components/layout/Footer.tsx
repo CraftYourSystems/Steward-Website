@@ -1,4 +1,6 @@
 import './layout.css';
+import './footer.css';
+import stewardLogo from '../../assets/steward-logo.png';
 
 const adminUrl = import.meta.env.VITE_ADMIN_URL || 'http://localhost:3000';
 
@@ -9,14 +11,13 @@ export default function Footer() {
         <div className="footer-grid">
           {/* Brand column */}
           <div className="footer-brand">
-            <div className="navbar-logo" style={{ marginBottom: '0.85rem' }}>
-              <div className="logo-mark" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="14" height="14">
-                  <path d="M12 3L4 7v5c0 4.5 3.4 8.7 8 9.9 4.6-1.2 8-5.4 8-9.9V7L12 3z" fill="currentColor"/>
-                </svg>
-              </div>
-              <span className="logo-text">Steward</span>
-            </div>
+            <a href="#" aria-label="Steward home" className="footer-logo-wrap">
+              <img
+                src={stewardLogo}
+                alt="Steward"
+                className="footer-logo-img"
+              />
+            </a>
             <p className="text-body" style={{ fontSize: '0.88rem', maxWidth: '260px', lineHeight: 1.65 }}>
               Mission Control for Restaurant Operations. Built for operators who need it to just work.
             </p>
